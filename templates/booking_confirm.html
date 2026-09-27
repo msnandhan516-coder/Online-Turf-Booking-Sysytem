@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center pt-5">
+        <div class="col-lg-7">
+            <div class="pro-card p-4 p-md-5 text-center w-100" style="max-width: 100%;">
+                <div class="mb-5">
+                    <div class="display-Font text-primary mb-3" style="font-size: 4rem;">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h4 class="text-primary uppercase tracking-widest mb-1">Mission Accomplished</h4>
+                    <h1 class="display-4 text-white">BOOKING <span class="text-primary">CONFIRMED</span></h1>
+                </div>
+
+                <div class="tactical-border bg-black p-4 p-md-5 text-left mb-5">
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="pro-label m-0">Enlistment ID</label>
+                            <div class="text-white font-mono h5 m-0">#BT-CONF-{{ booking.id }}</div>
+                        </div>
+                        <div class="col-md-6 mb-3 text-md-right">
+                            <label class="pro-label m-0">Unit Identifier</label>
+                            <div class="text-primary font-weight-bold h5 m-0">{{ booking.slot.Turf.Turf_name|upper }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="pro-label m-0">Deployment Date</label>
+                            <div class="text-white h5 m-0">{{ booking.slot.Date|date:"d M Y" }}</div>
+                        </div>
+                        <div class="col-md-6 mb-3 text-md-right">
+                            <label class="pro-label m-0">Time Window</label>
+                            <div class="text-white h5 m-0">{{ booking.slot.TimeSlot }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-primary text-black font-weight-bold mb-5 small uppercase tracking-tighter" style="font-size: 0.7rem;">
+                    <i class="fas fa-id-card mr-2"></i> PRESENT CONTACT EMISSION ({{ booking.customer_phone }}) AT ENTRANCE FOR ACCESS
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a href="{% url 'MyBookings' %}" class="pro-btn">VIEW MY BOOKINGS</a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="{% url 'index' %}" class="pro-btn-outline">RETURN TO BASE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

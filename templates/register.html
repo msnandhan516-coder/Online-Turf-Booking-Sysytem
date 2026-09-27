@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="auth-terminal-layout transition-reveal">
+    <div class="auth-terminal-card" style="max-width: 600px;">
+        <!-- Holographic Decorative Elements -->
+        <div class="terminal-scanline"></div>
+        <div class="bracket-footer"></div>
+        
+        <!-- Header Telemetry -->
+        <header class="terminal-header">
+            <div class="terminal-telemetry text-uppercase">
+                <span>Sector: Neutral</span>
+                <span>Type: Operative</span>
+                <span>Registry: Open</span>
+            </div>
+            <h4 class="text-primary small font-weight-bold uppercase tracking-widest mb-1">Enlistment Protocol</h4>
+            <h1 class="display-4 text-white m-0 font-weight-bold">FIELD <span class="text-primary">REGISTRATION</span></h1>
+        </header>
+
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-info bg-black tactical-border p-3 small text-uppercase font-weight-bold">
+                    <i class="fas fa-info-circle mr-2"></i> {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.errors %}
+        <div class="mb-4 alert alert-danger bg-black tactical-border p-3 small" style="color: var(--signal-orange); border-color: var(--signal-orange);">
+            <div class="uppercase tracking-widest font-weight-bold mb-2">Integrity Errors Detected:</div>
+            {{ form.errors }}
+        </div>
+        {% endif %}
+
+        <!-- Enlistment Form -->
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="enlist-grid">
+                {% for field in form %}
+                <div class="{% if field.name == 'email' or field.name == 'username' %}enlist-full{% endif %} mb-3">
+                    <label class="pro-label">{{ field.label|upper }} // DATA</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small class="text-muted d-block mt-1 font-mono" style="font-size: 0.55rem; opacity: 0.5;">{{ field.help_text|upper }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="mt-5">
+                <button type="submit" class="pro-btn w-100 py-3 uppercase tracking-widest font-weight-bold">
+                    <i class="fas fa-user-plus mr-2"></i> COMPLETE ENLISTMENT
+                </button>
+            </div>
+            
+            <div class="mt-4 text-center">
+                <span class="text-muted small uppercase tracking-widest" style="font-size: 0.65rem;">Already in registry?</span>
+                <a href="{% url 'signin' %}" class="text-primary small font-weight-bold uppercase tracking-widest ml-2" style="text-decoration: none;">
+                    Authorize Now <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </form>
+
+        <!-- Dynamic Status Footer -->
+        <footer class="mt-5 pt-3 border-top border-dark opacity-50">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="text-primary font-mono" style="font-size: 0.5rem;">REG_MOD_v1.0.4</div>
+                <div class="text-muted font-mono" style="font-size: 0.5rem;">STATUS: SECURE // AWAITING INPUT</div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<style>
+/* Internal form field cleanup for Django widgets */
+input, select {
+    width: 100% !important;
+    background: #000 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 1rem !important;
+    color: var(--pure-white) !important;
+    font-family: var(--font-main) !important;
+    transition: all 0.3s ease !important;
+}
+input:focus, select:focus {
+    border-color: var(--acid-green) !important;
+    box-shadow: 0 0 15px rgba(223, 255, 0, 0.1) !important;
+    outline: none !important;
+}
+
+.navbar, .modern-footer {
+    display: none !important;
+}
+body {
+    background: #000 !important;
+}
+</style>
+{% endblock %}

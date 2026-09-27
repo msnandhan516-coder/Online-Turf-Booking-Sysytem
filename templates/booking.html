@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- CENTERED BOOKING HERO START -->
+<div class="booking-hero">
+    <div class="scanline-pulse"></div>
+    <div class="container d-flex flex-column align-items-center">
+        <div class="focus-console reveal">
+            <div class="hud-brackets"></div>
+            
+            <div class="mb-5">
+                <h4 class="text-primary uppercase tracking-widest mb-1">Sector Search</h4>
+                <h1 class="display-3 text-white m-0">DEPLOY <span class="text-primary">PARAMETERS</span></h1>
+                <p class="text-muted small uppercase">INITIATE TURF ENLISTMENT PROTOCOL</p>
+            </div>
+
+            <form action="{% url 'turf_details' %}" method="POST" class="row">
+                {% csrf_token %}
+                <div class="col-md-5 mb-3 mb-md-0">
+                    <label class="pro-label text-left">Target Sector</label>
+                    <select class="form-control hud-select" name="area" required>
+                        <option value="" selected disabled>SELECT AREA</option>
+                        {% for T in area %}
+                            <option value="{{T}}">{{T|upper}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <label class="pro-label text-left">Sport Discipline</label>
+                    <select class="form-control hud-select" name="catogary" required>
+                        <option value="" selected disabled>SELECT CATEGORY</option>
+                        {% for T in cat %}
+                            <option value="{{T}}">{{T|upper}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 mt-md-auto">
+                    <button class="btn btn-primary btn-block pro-btn h-100 py-3" type="submit">SEARCH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- CENTERED BOOKING HERO END -->
+
+<div class="container pb-5">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger tactical-border bg-dark mb-4">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="d-flex justify-content-between align-items-end mb-4 pt-5 border-top border-secondary">
+        <div>
+            <h4 class="text-primary m-0 uppercase tracking-widest">Global Enlistment</h4>
+            <h1 class="display-4 m-0">ACTIVE <span class="text-white">TURFS</span></h1>
+        </div>
+        <div class="text-right text-muted small uppercase">
+            {{ turfs.count }} ACTIVE UNITS DETECTED
+        </div>
+    </div>
+
+    <!-- ENLISTMENT GRID START -->
+    <div class="enlistment-grid">
+        {% for turf in turfs %}
+        <div class="enlistment-tile reveal-stagger">
+            <img class="tile-image" src="{{ turf.Turf_Image.url }}" alt="{{ turf.Turf_name }}">
+            <div class="enlistment-info">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <div class="tile-category">{{ turf.Turf_catogary }}</div>
+                        <h3 class="text-white m-0">{{ turf.Turf_name|upper }}</h3>
+                    </div>
+                    <div class="tile-price">₹{{ turf.Turf_price }}</div>
+                </div>
+                
+                <p class="text-muted small mb-4">
+                    <i class="fas fa-map-marker-alt text-primary mr-2"></i> {{ turf.Turf_area|upper }}
+                </p>
+
+                <form action="{% url 'book_slot' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-primary btn-block pro-btn-outline" type="submit" name="submit" value="{{ turf.Turf_id }}">
+                        CHECK AVAILABILITY
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h3 class="text-muted">NO ACTIVE UNITS IN SECTOR</h3>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- ENLISTMENT GRID END -->
+</div>
+
+<!-- KINETIC FOOTER OVERLAY -->
+<div class="container py-5">
+    <div class="row py-4 border-top border-secondary opacity-50">
+        <div class="col-md-3 mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <span class="display-4 mr-3 text-primary">01</span>
+                <h5 class="m-0 text-white">SEARCH</h5>
+            </div>
+            <p class="text-muted small">Target your sector and discipline.</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <span class="display-4 mr-3 text-primary">02</span>
+                <h5 class="m-0 text-white">INSPECT</h5>
+            </div>
+            <p class="text-muted small">Analyze unit pricing and location.</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <span class="display-4 mr-3 text-primary">03</span>
+                <h5 class="m-0 text-white">SELECT</h5>
+            </div>
+            <p class="text-muted small">Secure your tactical time window.</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <span class="display-4 mr-3 text-primary">04</span>
+                <h5 class="m-0 text-white">DEPLOY</h5>
+            </div>
+            <p class="text-muted small">Confirm and authorize payment.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% block dashboard_content %}
+<div class="row pt-5 transition-reveal">
+    <div class="col-lg-8 offset-lg-2">
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+                <h4 class="text-primary m-0 uppercase tracking-widest">Asset Registry</h4>
+                <h1 class="display-4 text-white m-0">ADD NEW <span class="text-primary">TURF</span></h1>
+                <p class="text-muted m-0 small uppercase">ENLIST A NEW SPORTS FACILITY INTO THE GLOBAL GRID</p>
+            </div>
+        </div>
+
+        <div class="hud-panel glass-card p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form %}
+                    <div class="col-md-12 mb-4">
+                        <label class="pro-label">{{ field.label|upper }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <small class="text-muted d-block mt-1 font-mono" style="font-size: 0.6rem;">{{ field.help_text|upper }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-5">
+                    <button class="pro-btn w-100" type="submit">
+                        <i class="fas fa-check-circle mr-2"></i> AUTHORIZE REGISTRATION
+                    </button>
+                    <a href="{% url 'manage_turf' %}" class="pro-btn-outline w-100 mt-2">CANCEL MISSION</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Internal form styling to match the HUD context */
+input, select, textarea {
+    width: 100%;
+    background: #000 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 1rem !important;
+    color: var(--pure-white) !important;
+    font-family: var(--font-main) !important;
+    transition: all 0.3s ease !important;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: var(--acid-green) !important;
+    box-shadow: 0 0 15px rgba(223, 255, 0, 0.1) !important;
+    outline: none !important;
+}
+</style>
+{% endblock %}
