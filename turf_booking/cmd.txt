@@ -1,1 +1,0 @@
-source ../proenv/bin/activate && python3 manage.py runserver
