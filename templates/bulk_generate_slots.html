@@ -1,0 +1,83 @@
+{% extends 'turf_manager_home.html' %}
+{% load static %}
+
+{% block dashboard_content %}
+<div class="row pt-5 transition-reveal">
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <!-- HEADER -->
+        <header class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+                <div class="text-primary small font-weight-bold uppercase tracking-widest mb-1">Module: Deployment // Bulk</div>
+                <h1 class="display-3 text-white m-0 font-weight-bold">BULK <span class="text-primary">DEPLOYMENT</span></h1>
+                <p class="text-muted m-0 small uppercase tracking-widest">Rapid Generation of Operational Windows for Sector Assets.</p>
+            </div>
+        </header>
+
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-info tactical-border bg-black text-primary p-3">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- DEPLOYMENT CONSOLE -->
+        <div class="hud-panel glass-card p-5">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="pro-label">TARGET ASSET SECTOR</label>
+                        <select name="turf" class="pro-input" required>
+                            {% for turf in turfs %}
+                            <option value="{{ turf.Turf_id }}">{{ turf.Turf_name|upper }} ({{ turf.Turf_area|upper }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="pro-label">DEPLOYMENT DATE</label>
+                        <input type="date" name="date" class="pro-input" required min="{{ today|date:'Y-m-d' }}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="pro-label">WINDOWS START (24H)</label>
+                        <input type="number" name="start_time" class="pro-input" value="6" min="0" max="23">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="pro-label">WINDOWS CEASE (24H)</label>
+                        <input type="number" name="end_time" class="pro-input" value="22" min="1" max="24">
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <button type="submit" class="pro-btn w-100 py-3">
+                        <i class="fas fa-bolt mr-2 text-dark"></i> EXECUTE BATCH GENERATION
+                    </button>
+                    <div class="text-center mt-3 text-muted small uppercase tracking-widest" style="font-size: 0.6rem;">
+                        <i class="fas fa-info-circle mr-1"></i> This action will instantly populate the sector with tactical slots.
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Internal styles for specific form controls */
+.pro-input {
+    background: #000 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: white !important;
+    padding: 1.25rem !important;
+    text-transform: uppercase;
+    width: 100% !important;
+}
+.pro-input:focus {
+    border-color: var(--acid-green) !important;
+    box-shadow: 0 0 20px rgba(223, 255, 0, 0.1) !important;
+}
+</style>
+{% endblock %}

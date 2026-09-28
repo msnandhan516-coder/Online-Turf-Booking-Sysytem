@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="auth-terminal-layout transition-reveal">
+    <div class="auth-terminal-card">
+        <!-- Holographic Decorative Elements -->
+        <div class="terminal-scanline"></div>
+        <div class="bracket-footer"></div>
+        
+        <!-- Header Telemetry -->
+        <header class="terminal-header">
+            <div class="terminal-telemetry text-uppercase">
+                <span>Uplink: Secure</span>
+                <span>Enc: AES-256</span>
+                <span>Signal: Verified</span>
+            </div>
+            <h4 class="text-primary small font-weight-bold uppercase tracking-widest mb-1">Authorization Protocol</h4>
+            <h1 class="display-4 text-white m-0 font-weight-bold">SECURE <span class="text-primary">LOGIN</span></h1>
+        </header>
+
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-danger bg-black tactical-border p-3 small text-uppercase font-weight-bold" style="color: var(--signal-orange); border-color: var(--signal-orange);">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Auth Terminal Form -->
+        <form action="{% url 'signin' %}" method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label class="pro-label">IDENTIFIER // USERNAME</label>
+                <input type="text" name="username" class="pro-input" placeholder="ENTER OPERATIVE ID" required>
+            </div>
+            
+            <div class="mb-5">
+                <label class="pro-label">ENCRYPTION // PASSWORD</label>
+                <input type="password" name="password" class="pro-input" placeholder="ENTER ACCESS KEY" required>
+            </div>
+            
+            <button type="submit" class="pro-btn w-100 py-3 uppercase tracking-widest font-weight-bold">
+                <i class="fas fa-unlock-alt mr-2"></i> AUTHORIZE ACCESS
+            </button>
+            
+            <div class="mt-4 text-center">
+                <span class="text-muted small uppercase tracking-widest" style="font-size: 0.65rem;">Not in registry?</span>
+                <a href="{% url 'signup' %}" class="text-primary small font-weight-bold uppercase tracking-widest ml-2" style="text-decoration: none;">
+                    Enlist Now <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </form>
+
+        <!-- Dynamic Status Footer -->
+        <footer class="mt-5 pt-3 border-top border-dark opacity-50">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="text-primary font-mono" style="font-size: 0.5rem;">SYS_AUTH_v4.2.0</div>
+                <div class="text-muted font-mono" style="font-size: 0.5rem;">LOC: 127.0.0.1 // PORT: 8000</div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<style>
+/* Ensure the auth terminal hides standard navigation/footer if needed, 
+   but for this project we'll keep it as a page content */
+.navbar, .modern-footer {
+    display: none !important;
+}
+body {
+    background: #000 !important;
+}
+</style>
+{% endblock %}
